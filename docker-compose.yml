@@ -1,0 +1,32 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dahua-dubai-app
+    ports:
+      - "8088:8088"
+    env_file:
+      - .env.local
+    
+    restart: unless-stopped
+    networks:
+      - dahua-network
+    
+    # Volume for node_modules (optional, helps with performance)
+    volumes:
+      - /app/node_modules
+    
+    # Resource limits (optional but recommended)
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+networks:
+  dahua-network:
+    driver: bridge
